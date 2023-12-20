@@ -1,6 +1,11 @@
 '''library imports'''
 import math
 import json
+from itertools import product
+'''definitions'''
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+monogramFrequency = dict(json.loads(open("EnglishData/EnglishMonograms.json","r").read()))
+tetragramFrequency = dict(json.loads(open("EnglishData/EnglishQuadgrams.json","r").read()))
 
 '''functions'''
 # process the text to be analysed and messed with
@@ -10,6 +15,11 @@ def process(text):
         if each.isalpha():
             newText += each.upper()
     return newText
+
+# generate a list of all possible ngrams
+def possibleNgrams(K):
+    res = list(map("".join, product(alphabet, repeat = K)))
+    return res
 
 # generates ngrams from given text and specified length
 def ngrams(text,size):
@@ -63,4 +73,23 @@ def tetragramFitness(text,frequency,size):
     fitness /= len(tetragrams)
     fitness = 10**fitness
     return fitness
+
+# find the index of coincidence of a given text
+def IoC(text,K):
+    res = possibleNgrams(K)
+    N = len(text)
+    index = 0
+    for i in res:
+        index += (text.count(i)*(text.count(i)-1))/(N*(N-1))
+    index *= 26**K
+    return index
+
+# find the entropy (randomness) of a text
+def entropy(text, frequency):
+    monograms = ngrams(text,1)
+    Sum = 0
+    for each in monograms:
+        Sum += monograms[each]*math.log(monograms[each],26)
+    Sum *= -1
+    return Sum
 
