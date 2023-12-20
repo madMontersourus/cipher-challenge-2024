@@ -5,9 +5,9 @@
 - convert code to C++ (once I learn it)
 ### Linguistic data
 #### English Data (open to be forked)
-- English corpus (brown corpus with only characters)
-- English character frequencies (EnglishMonograms.json)
-- English Quadgrams
+* English corpus (brown corpus with only characters)
+* English character frequencies (EnglishMonograms.json)
+* English Quadgrams
 * List of words
   - ordered alphabetically (wordsAlpha.json)
   - ordered by frequency (wordsFreq.json)
