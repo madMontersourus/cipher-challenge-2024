@@ -17,8 +17,8 @@ def process(text):
     return newText
 
 # generate a list of all possible ngrams
-def possibleNgrams(K):
-    res = list(map("".join, product(alphabet, repeat = K)))
+def possibleNgrams(n):
+    res = list(map("".join, product(alphabet, repeat = n)))
     return res
 
 # generates ngrams from given text and specified length
@@ -64,19 +64,19 @@ def angleFitness(text,frequency):
     return Theta
 
 # takes text and English ngram frequency (likely 4), returns float (closer to 0, closer to English)
-def tetragramFitness(text,frequency,size):
-    tetragrams = ngrams(text,size)
+def ngramFitness(text,frequency,size):
+    ngram = ngrams(text,size)
     fitness = 0
-    for each in tetragrams:
+    for each in ngram:
         if each in frequency:
             fitness += math.log10(frequency[each])
-    fitness /= len(tetragrams)
+    fitness /= len(ngram)
     fitness = 10**fitness
     return fitness
 
 # find the index of coincidence of a given text
-def IoC(text,K):
-    res = possibleNgrams(K)
+def IoC(text,n):
+    res = possibleNgrams(n)
     N = len(text)
     index = 0
     for i in res:
