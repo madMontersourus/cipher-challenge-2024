@@ -71,13 +71,13 @@ def angleFitness(text,frequency):
     return Theta
 
 # takes text and English ngram frequency (likely 4), returns float (closer to 0, closer to English)
-def tetragramFitness(text,frequency,size):
-    tetragrams = ngrams(text,size)
+def ngramFitness(text,frequency,size):
+    ngram = ngrams(text,size)
     fitness = 0
-    for each in tetragrams:
+    for each in ngram:
         if each in frequency:
             fitness += math.log10(frequency[each])
-    fitness /= len(tetragrams)
+    fitness /= len(ngram)
     fitness = 10**fitness
     return fitness
 
