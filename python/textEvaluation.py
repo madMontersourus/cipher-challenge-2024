@@ -9,6 +9,18 @@ monogramFrequency = dict(json.loads(open("EnglishData/EnglishMonograms.json","r"
 tetragramFrequency = dict(json.loads(open("EnglishData/EnglishQuadgrams.json","r").read()))
 
 '''functions'''
+# sorts a given dictionary based on value (from highest to lowest)
+def sortDictFreq(dictionary):
+    newDictionary = dict(sorted(dictionary.items(), key=lambda item: item[1], reverse=True))
+    return newDictionary
+
+# calculcates the dot product of two dictionaries
+def dotProduct(vector1,vector2):
+    product = 0
+    for each in vector1:
+        product += vector1[each]*vector2[each]
+    return product
+
 # process the text to be analysed and messed with
 def process(file):
     text = open(file+".txt","r").read()
@@ -24,8 +36,8 @@ def openDict(file,area):
     return dictionary
 
 # generate a list of all possible ngrams
-def possibleNgrams(n):
-    ngramList = list(map("".join, product(alphabet, repeat = n)))
+def possibleNgrams(size):
+    ngramList = list(map("".join, product(alphabet, repeat = size)))
     return ngramList
 
 # generates ngrams from given text and specified length
@@ -42,18 +54,6 @@ def ngrams(text,size):
     for each in ngramFreq:
         ngramFreq[each] /= count
     return ngramFreq
-
-# sorts a given dictionary based on value (from highest to lowest)
-def sortDictFreq(dictionary):
-    newDictionary = dict(sorted(dictionary.items(), key=lambda item: item[1], reverse=True))
-    return newDictionary
-
-# calculcates the dot product of two dictionaries
-def dotProduct(vector1,vector2):
-    product = 0
-    for each in vector1:
-        product += vector1[each]*vector2[each]
-    return product
 
 # takes text and English monogram frequency, returns float (closer to 0, closer to English)
 def Xstat(text,frequency):
@@ -82,13 +82,13 @@ def ngramFitness(text,frequency,size):
     return fitness
 
 # find the index of coincidence of a given text (English IoC is around 1.75, for IoC1)
-def IoC(text,n):
-    res = possibleNgrams(n)
+def IoC(text,size):
+    res = possibleNgrams(size)
     N = len(text)
     index = 0
     for i in res:
         index += (text.count(i)*(text.count(i)-1))/(N*(N-1))
-    index *= 26**n
+    index *= 26**size
     return index
 
 # find the entropy (randomness) of a text (English entropy around 0.88 to 0.90)
