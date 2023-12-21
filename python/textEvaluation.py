@@ -2,6 +2,7 @@
 import math
 import json
 from itertools import product
+
 '''definitions'''
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 monogramFrequency = dict(json.loads(open("EnglishData/EnglishMonograms.json","r").read()))
@@ -9,17 +10,23 @@ tetragramFrequency = dict(json.loads(open("EnglishData/EnglishQuadgrams.json","r
 
 '''functions'''
 # process the text to be analysed and messed with
-def process(text):
+def process(file):
+    text = open(file+".txt","r").read()
     newText = ""
     for each in text:
         if each.isalpha():
             newText += each.upper()
     return newText
 
+# opens a dictionary 
+def openDict(file,area):
+    dictionary = dict(json.loads(open(area+"/"+file+".json","r").read()))
+    return dictionary
+
 # generate a list of all possible ngrams
-def possibleNgrams(K):
-    res = list(map("".join, product(alphabet, repeat = K)))
-    return res
+def possibleNgrams(n):
+    ngramList = list(map("".join, product(alphabet, repeat = n)))
+    return ngramList
 
 # generates ngrams from given text and specified length
 def ngrams(text,size):
@@ -74,18 +81,18 @@ def tetragramFitness(text,frequency,size):
     fitness = 10**fitness
     return fitness
 
-# find the index of coincidence of a given text
-def IoC(text,K):
-    res = possibleNgrams(K)
+# find the index of coincidence of a given text (English IoC is around 1.75, for IoC1)
+def IoC(text,n):
+    res = possibleNgrams(n)
     N = len(text)
     index = 0
     for i in res:
         index += (text.count(i)*(text.count(i)-1))/(N*(N-1))
-    index *= 26**K
+    index *= 26**n
     return index
 
-# find the entropy (randomness) of a text
-def entropy(text, frequency):
+# find the entropy (randomness) of a text (English entropy around 0.88 to 0.90)
+def entropy(text):
     monograms = ngrams(text,1)
     Sum = 0
     for each in monograms:
