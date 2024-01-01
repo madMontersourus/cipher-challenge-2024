@@ -8,6 +8,7 @@ from textEvaluation import process, openDict, IoC, Xstat, alphabet
 '''definitions'''
 test = process("trialText")
 monogramFitness = openDict("EnglishMonograms","EnglishData")
+A = 65
 
 '''functions'''
 # tests to see in the cipher is a monoalphabetic substitution cipher
@@ -65,4 +66,17 @@ def decipherMonoAlphaHand(text):
             complete = True
     return newText
 
-
+def BruteCaeser(text):
+    found = False
+    fitness = 100
+    for i in range (0,26):
+            plaintext = ""
+            for each in text:
+                plaintext += chr((ord(each)-A+i)%26+A)
+            tempFit = Xstat(plaintext,monogramFitness)
+            if tempFit < fitness:
+                fitness = tempFit
+                key = i
+    for each in text:
+        
+    
