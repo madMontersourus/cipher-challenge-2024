@@ -39,6 +39,6 @@
 - encipherMonoAlpha(text,key) takes plaintext and a key and returns ciphertext
 - decipherMonoAlpha(text,key) takes ciphertext and a key (not inverted) and returns a plaintext
 - decipherMonoAlphaHand(text) takes a ciphertext and runs through until all letters have been changed from ciphertext to plaintext
-#### monoalphabetic substitution ciphers
+##### monoalphabetic substitution ciphers
 - BruteCaeser(text) takes ciphertext, runs through all possible shifts (26) and uses tetragram fitness to detect closeness to English
 
