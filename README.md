@@ -1,7 +1,6 @@
 # cipher-challenge-2024
 ## Current Workings
 ### monoalphabetic substitution ciphers
-- write a script to go through monoalphabetic substitution cipher by hand
 - write a script to draw a bar chart of English frequencies vs ciphertext frequencies
 
 ## Already done
@@ -18,9 +17,9 @@
 ##### assorted functions
 - sortDictFreq(dictionary) takes a dictionary with frequency as its value and sorts it by highest to lowest value 
 - dotProduct(vector1,vector2) takes 2 dictionaries and calculates the dot product of them, required for angleFitness, returns float
-##### both opening functions do not requre a file type suffix (will allow for both to assume file directories with no input later)
+##### both opening functions do not requre a file type suffix
 - process(file) takes a file name (assumes it's in the main file directory) and processes it ready for interpretation
-- openDict(file,area) takes a file name (must be json) and where it is located and turns it into a dictionary
+- openDict(file,area) takes a file name (must be json, assumes it's in the EnglishData folder) and where it is located and turns it into a dictionary
 ##### n grams
 - possibleNgrams(size) takes size of ngram and generates all possible ngrams of that size, returns list
 - ngrams(text,size) takes text and the size of ngrams and generates all ngrams along with their frequency, returns dictionary
@@ -38,5 +37,8 @@
 - test4MonoAlpha(text,frequency) takes text and English monogram frequency and returns boolean as to whether a ciphertext has been enciphered using a monoalphabetic substitution cipher
 - invertKey(key) takes a key and inverts it so it can be used for decryption
 - encipherMonoAlpha(text,key) takes plaintext and a key and returns ciphertext
-- decipherMonoAlpha(text,key) takes ciphertext and a key (not inverted) and returns a plaintext 
+- decipherMonoAlpha(text,key) takes ciphertext and a key (not inverted) and returns a plaintext
+- decipherMonoAlphaHand(text) takes a ciphertext and runs through until all letters have been changed from ciphertext to plaintext
+#### monoalphabetic substitution ciphers
+- BruteCaeser(text) takes ciphertext, runs through all possible shifts (26) and uses tetragram fitness to detect closeness to English
 
