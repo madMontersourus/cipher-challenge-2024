@@ -3,11 +3,6 @@ import math
 import json
 from itertools import product
 
-'''definitions'''
-alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-monogramFrequency = dict(json.loads(open("EnglishData/EnglishMonograms.json","r").read()))
-tetragramFrequency = dict(json.loads(open("EnglishData/EnglishQuadgrams.json","r").read()))
-
 '''functions'''
 # sorts a given dictionary based on value (from highest to lowest)
 def sortDictFreq(dictionary):
@@ -22,8 +17,11 @@ def dotProduct(vector1,vector2):
     return product
 
 # process the text to be analysed and messed with
-def process(file):
-    text = open(file+".txt","r").read()
+def process(file, area=None):
+    if area == None:
+        text = open(file+".txt","r").read()
+    else:
+        text = open(area+"/"+file+".txt","r").read()
     newText = ""
     for each in text:
         if each.isalpha():
@@ -31,8 +29,11 @@ def process(file):
     return newText
 
 # opens a dictionary 
-def openDict(file,area):
-    dictionary = dict(json.loads(open(area+"/"+file+".json","r").read()))
+def openDict(file,area="EnglishData"):
+    if area == None:
+        dictionary = dict(json.loads(open(file+".json","r").read()))
+    else:
+        dictionary = dict(json.loads(open(area+"/"+file+".json","r").read()))
     return dictionary
 
 # generate a list of all possible ngrams
@@ -100,3 +101,8 @@ def entropy(text):
     Sum *= -1
     return Sum
 
+'''definitions'''
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+monogramFrequency = openDict("EnglishMonograms")
+tetragramFrequency = openDict("EnglishQuadgrams")
+text = process("trialText")

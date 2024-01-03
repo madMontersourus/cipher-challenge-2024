@@ -3,18 +3,19 @@
 - Monogram fitness is low'''
 
 '''library imports'''
-from textEvaluation import process, openDict, IoC, Xstat, alphabet
+from textEvaluation import process, openDict, IoC, ngramFitness, alphabet
 
 '''definitions'''
 test = process("trialText")
-monogramFitness = openDict("EnglishMonograms","EnglishData")
+tetragramFrequency = openDict("EnglishQuadgrams","EnglishData")
 A = 65
 
 '''functions'''
 # tests to see in the cipher is a monoalphabetic substitution cipher
 def test4MonoAlpha(text, frequency):
     tempIoC = IoC(text, 1)
-    fitness = Xstat(text, frequency)
+    fitness = ngramFitness(text, frequency, 4)
+    print(tempIoC,fitness)
     if tempIoC > 1.65 and tempIoC < 1.85 and fitness > 0.5:
         return True
     else:
@@ -70,13 +71,16 @@ def BruteCaeser(text):
     found = False
     fitness = 100
     for i in range (0,26):
-            plaintext = ""
+            tempText = ""
             for each in text:
-                plaintext += chr((ord(each)-A+i)%26+A)
-            tempFit = Xstat(plaintext,monogramFitness)
+                tempText += chr((ord(each)-A+i)%26+A)
+            tempFit = ngramFitness(tempText, tetragramFrequency, 4)
             if tempFit < fitness:
                 fitness = tempFit
                 key = i
+    plaintext = ""
     for each in text:
-        
-    
+        plaintext += chr((ord(each)-A+key)%26+A)  
+    return plaintext, key
+
+print(BruteCaeser(test))
